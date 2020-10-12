@@ -8,19 +8,14 @@ const int NumberOfDigits = 34;
 
 struct TLong
 {
-    unsigned short dataInt[NumberOfDigits] = {};
-    unsigned short dataFloat[NumberOfDigits] = {};
+    unsigned short dataInt[NumberOfDigits] = {0};
+    unsigned short dataFloat[NumberOfDigits] = {0};
     bool sign = false;
 };
 
 bool Read_TLong(ifstream& fin, TLong& num)
 {
     string str;
-
-    /*for (unsigned char i = 0; i <= NumberOfDigits; i++) {
-
-    }*/
-
 
     fin >> str;
     cout << str << endl;
@@ -34,6 +29,8 @@ bool Read_TLong(ifstream& fin, TLong& num)
 
     int posDot = str.find(".");
     strLength = str.length();
+    if (posDot < 0)
+        posDot = strLength;
 
     num.dataFloat[0] = (strLength - posDot + 2) / 3;
 
@@ -63,10 +60,6 @@ bool Read_TLong(ifstream& fin, TLong& num)
         cur += unsigned short((str[i] - '0') * pow(10, j));
         if (j == 0 || i == str.length() - 1) {
             j = 2;
-            /*if (num.dataFloat[curCell] % 100 == 0)
-                num.dataFloat[curCell] /= 100;
-            else if (num.dataFloat[curCell] % 10 == 0)
-                num.dataFloat[curCell] /= 10;*/
             num.dataFloat[curCell] = cur;
             curCell++;
             cur = 0;
@@ -75,13 +68,52 @@ bool Read_TLong(ifstream& fin, TLong& num)
             j--;
     }
 
-    curCell--;
-    if (num.dataFloat[curCell] % 100 == 0)
-        num.dataFloat[curCell] /= 100;
-    else if (num.dataFloat[curCell] % 10 == 0)
-        num.dataFloat[curCell] /= 10;
+    for (unsigned char i = num.dataInt[0]; i >= 1; i--) {
+        if (num.dataInt[i] == 0)
+            num.dataInt[0]--;
+        else
+            break;
+    }
+
+    for (unsigned char i = num.dataFloat[0]; i >= 1; i--) {
+        if (num.dataFloat[i] == 0)
+            num.dataFloat[0]--;
+        else
+            break;
+    }
     
     return false;
+}
+
+void Write_TLong(ofstream& fout, TLong& num)
+{
+    if (num.sign)
+        fout << "-";
+    for (char i = num.dataInt[0]; i >= 1; i--) {
+        if (i > 1 && num.dataInt[i] == 0)
+            fout << "000";
+        else if (i > 1 && num.dataInt[i] < 10)
+            fout << num.dataInt[i] * 100;
+        else if (i > 1 && num.dataInt[i] < 100)
+            fout << num.dataInt[i] * 10;
+        else
+            fout << num.dataInt[i];
+    }
+
+    if (num.dataFloat[0] != 0) {
+        fout << '.';
+        for (char i = 1; i <= num.dataFloat[0]; i++) {
+            if (num.dataFloat[i] == 0)
+                fout << "000";
+            else if (num.dataFloat[i] < 10)
+                fout << "00" << num.dataFloat[i];
+            else if (num.dataFloat[i] < 100)
+                fout << '0' << num.dataFloat[i];
+            else
+                fout << num.dataFloat[i];
+        }
+    }
+
 }
 
 int main()
@@ -96,6 +128,7 @@ int main()
     string str;
 
     Read_TLong(fin, num);
+    Write_TLong(fout, num);
 
     fin.close();
     fout.close();
