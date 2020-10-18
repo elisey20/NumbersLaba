@@ -133,6 +133,7 @@ TLong Sum_TLong(TLong a, TLong b)
 TLong Sub_TLong(TLong a, TLong b)
 {
     return a;
+
 }
 
 TLong Sum_or_Sub(TLong a, TLong b) 
