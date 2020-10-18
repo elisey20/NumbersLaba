@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <stdlib.h>
 
 using namespace std;
 
@@ -8,10 +7,20 @@ const int NumberOfDigits = 34;
 
 struct TLong
 {
-    unsigned short dataInt[NumberOfDigits] = {0};
-    unsigned short dataFloat[NumberOfDigits] = {0};
+    unsigned short dataInt[NumberOfDigits] = { 0 };
+    unsigned short dataFloat[NumberOfDigits] = { 0 };
     bool sign = false;
 };
+
+bool Eq(TLong& a, TLong& b)
+{
+    return false;
+}
+
+bool Less(TLong& a, TLong& b)
+{
+    return false;
+}
 
 bool Read_TLong(ifstream& fin, TLong& num)
 {
@@ -81,7 +90,7 @@ bool Read_TLong(ifstream& fin, TLong& num)
         else
             break;
     }
-    
+
     return false;
 }
 
@@ -116,6 +125,21 @@ void Write_TLong(ofstream& fout, TLong& num)
 
 }
 
+TLong Sum_TLong(TLong a, TLong b)
+{
+    return a;
+}
+
+TLong Sub_TLong(TLong a, TLong b)
+{
+    return a;
+}
+
+TLong Sum_or_Sub(TLong a, TLong b) 
+{
+    return Sum_TLong(a, b);
+}
+
 int main()
 {
 
@@ -126,7 +150,7 @@ int main()
 
     TLong num;
     string str;
-
+     
     Read_TLong(fin, num);
     Write_TLong(fout, num);
 
