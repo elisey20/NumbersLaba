@@ -1,7 +1,0 @@
-﻿  NumbersLaba.cpp
-C:\Users\elise\source\repos\NumbersLaba\NumbersLaba.cpp(23,44): warning C4267: инициализация: преобразование из "size_t" в "unsigned short"; возможна потеря данных
-C:\Users\elise\source\repos\NumbersLaba\NumbersLaba.cpp(31,29): warning C4267: =: преобразование из "size_t" в "unsigned short"; возможна потеря данных
-C:\Users\elise\source\repos\NumbersLaba\NumbersLaba.cpp(71,26): warning C4244: инициализация: преобразование "unsigned short" в "unsigned char", возможна потеря данных
-C:\Users\elise\source\repos\NumbersLaba\NumbersLaba.cpp(78,26): warning C4244: инициализация: преобразование "unsigned short" в "unsigned char", возможна потеря данных
-C:\Users\elise\source\repos\NumbersLaba\NumbersLaba.cpp(92,17): warning C4244: инициализация: преобразование "unsigned short" в "char", возможна потеря данных
-  NumbersLaba.vcxproj -> C:\Users\elise\source\repos\NumbersLaba\Debug\NumbersLaba.exe
