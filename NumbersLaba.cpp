@@ -20,6 +20,7 @@ bool Eq(TLong& a, TLong& b)
 bool Less(TLong& a, TLong& b)
 {
     return false;
+
 }
 
 bool Read_TLong(ifstream& fin, TLong& num)
