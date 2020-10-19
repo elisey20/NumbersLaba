@@ -25,8 +25,8 @@ bool Less(TLong& a, TLong& b)
 	if (Eq(a, b))
 		return false;
 
-	for (unsigned char i = 1; i < NumberOfDigits; i++) {
-		if (a.dataInt[i] > b.dataInt[i] || a.dataFloat[i] > b.dataFloat[i])
+	for (unsigned char i = NumberOfDigits - 1; i > 0; i--) {
+		if (a.dataInt[i] > b.dataInt[i])
 			return false;
 	}
 	
@@ -251,29 +251,37 @@ TLong Sub_TLong(TLong a, TLong b)
 TLong Sum_or_Sub(TLong& a, TLong& b, char oper) 
 {
 	if (oper == '+') {
+		// a + b
 		if (a.sign == false && b.sign == false)
 			return Sum_TLong(a, b);
 
+		// a + (-b)
 		if (a.sign == false && b.sign)
 			return Sub_TLong(a, b);
 
+		// (-a) + b
 		if (a.sign && b.sign == false)
 			return Sub_TLong(b, a);
 
+		// (-a) + (-b)
 		if (a.sign && b.sign)
 			return Sum_TLong(a, b);
 	}
 
 	if (oper == '-') {
+		// a - b
 		if (a.sign == false && b.sign == false)
 			return Sub_TLong(a, b);
 
+		// a - (-b)
 		if (a.sign == false && b.sign)
 			return Sum_TLong(a, b);
 
+		// (-a) - b
 		if (a.sign && b.sign == false)
 			return Sum_TLong(a, b);
 
+		// (-a) - (-b)
 		if (a.sign && b.sign)
 			return Sub_TLong(b, a);
 	}
