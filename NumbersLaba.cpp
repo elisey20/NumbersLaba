@@ -105,7 +105,7 @@ bool Read_TLong(ifstream& fin, TLong& num)
     return false;
 }
 
-void Write_TLong(ofstream& fout, TLong& num)
+void Write_TLong(ofstream& fout, TLong num)
 {
     if (num.sign)
         fout << "-";
@@ -138,11 +138,49 @@ void Write_TLong(ofstream& fout, TLong& num)
 
 TLong Sum_TLong(TLong& a, TLong& b)
 {
-    //прописать присвоение переменной С знака числа А, тк знаки у а и b одинаковые
     TLong c;
     c.sign = a.sign;
 
+    bool pred = false;
+    bool dontNull = true;
 
+    for (unsigned char i = NumberOfDigits - 1; i >= 1; i--) {
+        c.dataFloat[i] = a.dataFloat[i] + b.dataFloat[i];
+        if (pred)
+            c.dataFloat[i] += 1;
+        if (c.dataFloat[i] >= 1000) {
+            c.dataFloat[i] -= 1000;
+            pred = true;
+        }
+        else
+            pred = false;
+        if (dontNull && c.dataFloat[i] != 0) {
+            c.dataFloat[0] = i;
+            dontNull = false;
+        }
+    }
+
+    for (unsigned char i = 1; i <= NumberOfDigits - 1; i++) {
+        c.dataInt[i] = a.dataInt[i] + b.dataInt[i];
+        if (pred)
+            c.dataInt[i] += 1;
+        if (c.dataInt[i] >= 1000) {
+            c.dataInt[i] -= 1000;
+            pred = true;
+        }
+        else
+            pred = false;
+    }
+
+    unsigned char i = NumberOfDigits - 1;
+    dontNull = true;
+    while (i >= 1 && dontNull)
+        if (c.dataInt[i] != 0) {
+            c.dataInt[0] = i;
+            dontNull = false;
+        }
+        else
+            i--;
 
     return c;
 }
@@ -196,11 +234,13 @@ int main()
     fin.open("./files/input.txt", ios_base::in);
     fout.open("./files/output.txt", ios_base::out);
 
-    TLong num;
+    TLong a;
+    TLong b;
     string str;
      
-    Read_TLong(fin, num);
-    Write_TLong(fout, num);
+    Read_TLong(fin, a);
+    Read_TLong(fin, b);
+    Write_TLong(fout, Sum_TLong(a, b));
 
     fin.close();
     fout.close();
