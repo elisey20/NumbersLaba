@@ -20,6 +20,7 @@ bool Eq(TLong& a, TLong& b)
 	return true;
 }
 
+//ДОДЕЛАТЬ
 bool Less(TLong& a, TLong& b)
 {
 	if (Eq(a, b))
