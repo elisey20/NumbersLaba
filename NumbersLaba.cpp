@@ -47,7 +47,7 @@ bool Read_TLong(ifstream& fin, TLong& num)
         str = str.substr(1);
     }
 
-    int posDot = str.find(".");
+    int posDot = str.find('.');
     strLength = str.length();
     if (posDot < 0)
         posDot = strLength;
@@ -136,20 +136,56 @@ void Write_TLong(ofstream& fout, TLong& num)
 
 }
 
-TLong Sum_TLong(TLong a, TLong b)
+TLong Sum_TLong(TLong& a, TLong& b)
 {
-    return a;
+    //прописать присвоение переменной С знака числа А, тк знаки у а и b одинаковые
+    TLong c;
+    c.sign = a.sign;
+
+
+
+    return c;
 }
 
 TLong Sub_TLong(TLong a, TLong b)
 {
+    
+    
     return a;
 
 }
 
-TLong Sum_or_Sub(TLong a, TLong b) 
+TLong Sum_or_Sub(TLong& a, TLong& b, char oper) 
 {
-    return Sum_TLong(a, b);
+    if (oper == '+') {
+        if (a.sign == false && b.sign == false)
+            return Sum_TLong(a, b);
+
+        if (a.sign == false && b.sign)
+            return Sub_TLong(a, b);
+
+        if (a.sign && b.sign == false)
+            return Sub_TLong(b, a);
+
+        if (a.sign && b.sign)
+            return Sum_TLong(a, b);
+    }
+
+    if (oper == '-') {
+        if (a.sign == false && b.sign == false)
+            return Sub_TLong(a, b);
+
+        if (a.sign == false && b.sign)
+            return Sum_TLong(a, b);
+
+        if (a.sign && b.sign == false)
+            return Sum_TLong(a, b);
+
+        if (a.sign && b.sign)
+            return Sub_TLong(b, a);
+    }
+    
+    return a;
 }
 
 int main()
