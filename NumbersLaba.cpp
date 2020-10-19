@@ -14,13 +14,23 @@ struct TLong
 
 bool Eq(TLong& a, TLong& b)
 {
-    return false;
+    if (a.sign != b.sign || a.dataInt != b.dataInt || a.dataFloat != b.dataFloat)
+        return false;
+    
+    return true;
 }
 
 bool Less(TLong& a, TLong& b)
 {
-    return false;
+    if (Eq(a, b))
+        return false;
 
+    for (unsigned char i = 1; i < NumberOfDigits; i++) {
+        if (a.dataInt[i] > b.dataInt[i] || a.dataFloat[i] > b.dataFloat[i])
+            return false;
+    }
+    
+    return true;
 }
 
 bool Read_TLong(ifstream& fin, TLong& num)
