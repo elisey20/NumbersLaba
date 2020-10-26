@@ -20,18 +20,34 @@ bool Eq(TLong& a, TLong& b)
 	return true;
 }
 
-//ДОДЕЛАТЬ
 bool Less(TLong& a, TLong& b)
 {
-	if (Eq(a, b))
+	//если а отриц, b полож
+	if (a.sign == true && b.sign == false)
+		return true;
+
+	//если а полож, b отриц
+	else if (a.sign == false && b.sign == true)
 		return false;
 
+	//посимвольно сравниваем в целой части
 	for (unsigned char i = NumberOfDigits - 1; i > 0; i--) {
 		if (a.dataInt[i] > b.dataInt[i])
 			return false;
+		else if (a.dataInt[i] < b.dataInt[i])
+			return true;
+	}
+
+	//посимвольно сравниваем в дробной части
+	for (unsigned char i = 1; i < NumberOfDigits; i++) {
+		if (a.dataFloat[i] > b.dataFloat[i])
+			return false;
+		else if (a.dataFloat[i] < b.dataFloat[i])
+			return true;
 	}
 	
-	return true;
+	//если числа равны
+	return false;
 }
 
 bool Read_TLong(ifstream& fin, TLong& num)
@@ -57,10 +73,10 @@ bool Read_TLong(ifstream& fin, TLong& num)
 	if (posDot < 0)
 		posDot = strLength;
 
-	//номер самой младшей ненулевой ячейки вещественной части
+	//номер самой крйней ненулевой ячейки вещественной части
 	num.dataFloat[0] = (strLength - posDot + 2) / 3;
 
-	//номер самой младшей ненулевой ячейки целой части
+	//номер самой крайней ненулевой ячейки целой части
 	num.dataInt[0] = (posDot + 2) / 3;
 
 	unsigned char j = 0;
@@ -249,7 +265,7 @@ TLong Sub_TLong(TLong a, TLong b)
 
 }
 
-TLong Sum_or_Sub(TLong& a, TLong& b, char oper) 
+TLong Sum_or_Sub(TLong a, TLong& b, char oper) 
 {
 	if (oper == '+') {
 		// a + b
@@ -305,7 +321,8 @@ int main()
 	 
 	Read_TLong(fin, a);
 	Read_TLong(fin, b);
-	Write_TLong(fout, a);
+	cout << Less(a, b);
+	Write_TLong(fout, b);
 
 	fin.close();
 	fout.close();
