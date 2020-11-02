@@ -12,6 +12,12 @@ struct TLong
 	bool sign = false;
 };
 
+enum ETAR {
+	NUMBER,
+	OPERATOR,
+	ERROR,
+};
+
 bool Eq(TLong& a, TLong& b)
 {
 	if (a.sign != b.sign || a.dataInt != b.dataInt || a.dataFloat != b.dataFloat)
@@ -50,13 +56,13 @@ bool Less(TLong& a, TLong& b)
 	return false;
 }
 
-bool Read_TLong(ifstream& fin, TLong& num)
+bool Read_TLong(string& str, TLong& num)
 {
 	//текущая строка
-	string str;
+	/*string str;
 
 	fin >> str;
-	cout << str << endl;
+	cout << str << endl;*/
 
 	//длина строки
 	unsigned short strLength = str.length();
@@ -390,6 +396,15 @@ TLong Sum_or_Sub(TLong a, char oper, TLong& b)
 	return c;
 }
 
+ETAR Read_str(ifstream& fin, string& str)
+{
+	if (str[0] == '-' || str[0] == '+')
+		return OPERATOR;
+	//доделать возвращение типа число 
+
+	return ERROR;
+}
+
 int main()
 {
 
@@ -397,16 +412,28 @@ int main()
 	ofstream fout;
 	fin.open("./files/input.txt", ios_base::in);
 	fout.open("./files/output.txt", ios_base::out);
-
-	TLong a; 
+	
+	TLong num; 
 	TLong b;
+	char oper;
 	string str;
-	 
-	Read_TLong(fin, a);
-	Read_TLong(fin, b);
-	TLong c = Sum_or_Sub(a, '-', b);
-	Write_TLong(fout, c);
+	unsigned short NumberOfString = 1;
+	ETAR etar;
+	
+	while (!fin.eof()) {
+		etar = Read_str(fin, str);
+		if (etar == NUMBER)
+			Read_TLong(str, num);
+		else if (etar == OPERATOR)
+			oper = str[0];
+		else {
+			cout << "Input error on line " << NumberOfString << "! Enter a number or operator (+, -)" << endl;
+			return 1;
+		}
+		NumberOfString++;
+	}
 
+	
 	fin.close();
 	fout.close();
 
