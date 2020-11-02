@@ -259,13 +259,87 @@ TLong Sum_TLong(TLong& a, TLong& b)
 
 TLong Sub_TLong(TLong a, TLong b)
 {
+	//если a == b вернуть 0
+	TLong c;
+	if (Eq(a, b))
+		return c;
+
+	//если b > a вернуть b - a со знаком минус
+	if (Less(a, b)) {
+		c = Sub_TLong(b, a);
+		c.sign = true;
+		return c;
+	}
+
+	//показывает, что нужно отнять единицу от следующей ячейки
+	bool pred = false;
+
+	//для поиска самой младшей ненулевой ячейки
+	bool dontNull = true;
+
+	//вычтание вещественной части
+	for (unsigned char i = NumberOfDigits - 1; i >= 1; i--) {
+		//вычитание
+		c.dataFloat[i] = a.dataFloat[i] + 1000 - b.dataFloat[i];
+
+		//отнимает единицу, если в предыдущей ячейке число не превышает минимально допустимое значение
+		if (pred)
+			c.dataFloat[i] -= 1;
+
+		//проверка на превышение числа в ячейке
+		if (c.dataFloat[i] >= 1000) {
+			c.dataFloat[i] -= 1000;
+			pred = false;
+		}
+		else
+			pred = true;;
+
+		//поиск самой младшей ненулевой ячейки
+		if (dontNull && c.dataFloat[i] != 0) {
+			c.dataFloat[0] = i;
+			dontNull = false;
+		}
+	}
 	
-	
+	//вычитание целой части
+	for (unsigned char i = 1; i <= NumberOfDigits - 1; i++) {
+		//вычитание
+		c.dataInt[i] = a.dataInt[i] + 1000 - b.dataInt[i];
+
+		//отнимает единицу, если в предыдущей ячейке число не превышает минимально допустимое значение
+		if (pred)
+			c.dataInt[i] -= 1;
+
+		//проверка на превышение числа в ячейке
+		if (c.dataInt[i] >= 1000) {
+			c.dataInt[i] -= 1000;
+			pred = false;
+		}
+		else
+			pred = true;
+	}
+
+	//для цикла
+	unsigned char i = NumberOfDigits - 1;
+	dontNull = true;
+
+	//поиск самой младшей ненулевой ячейки 
+	while (i >= 1 && dontNull)
+		if (c.dataInt[i] != 0) {
+			c.dataInt[0] = i;
+			dontNull = false;
+		}
+		else
+			i--;
+
+	//результат вычитания
+	return c;
+
 	return a;
 
 }
 
-TLong Sum_or_Sub(TLong a, TLong& b, char oper) 
+TLong Sum_or_Sub(TLong a, char oper, TLong& b)
 {
 	if (oper == '+') {
 		// a + b
@@ -273,12 +347,16 @@ TLong Sum_or_Sub(TLong a, TLong& b, char oper)
 			return Sum_TLong(a, b);
 
 		// a + (-b)
-		if (a.sign == false && b.sign)
+		if (a.sign == false && b.sign) {
+			b.sign = false;
 			return Sub_TLong(a, b);
+		}
 
 		// (-a) + b
-		if (a.sign && b.sign == false)
+		if (a.sign && b.sign == false) {
+			a.sign = false;
 			return Sub_TLong(b, a);
+		}
 
 		// (-a) + (-b)
 		if (a.sign && b.sign)
@@ -287,20 +365,25 @@ TLong Sum_or_Sub(TLong a, TLong& b, char oper)
 
 	if (oper == '-') {
 		// a - b
-		if (a.sign == false && b.sign == false)
+		if (a.sign == false && b.sign == false) 
 			return Sub_TLong(a, b);
 
 		// a - (-b)
-		if (a.sign == false && b.sign)
+		if (a.sign == false && b.sign) {
+			b.sign = false;
 			return Sum_TLong(a, b);
+		}
 
 		// (-a) - b
 		if (a.sign && b.sign == false)
 			return Sum_TLong(a, b);
 
 		// (-a) - (-b)
-		if (a.sign && b.sign)
+		if (a.sign && b.sign) {
+			b.sign = false;
+			a.sign = false;
 			return Sub_TLong(b, a);
+		}
 	}
 	
 	TLong c;
@@ -321,8 +404,8 @@ int main()
 	 
 	Read_TLong(fin, a);
 	Read_TLong(fin, b);
-	cout << Less(a, b);
-	Write_TLong(fout, b);
+	TLong c = Sum_or_Sub(a, '-', b);
+	Write_TLong(fout, c);
 
 	fin.close();
 	fout.close();
