@@ -2,6 +2,8 @@
 #include <fstream>
 #include "Structs.h"
 
+unsigned short NumberOfString = 0;
+
 bool Eq(TLong& a, TLong& b)
 {
 	if (a.sign != b.sign || a.dataInt != b.dataInt || a.dataFloat != b.dataFloat)
@@ -380,11 +382,37 @@ TLong Sum_or_Sub(TLong a, char oper, TLong& b)
 	return c;
 }
 
+ //'0' = 48
+ //'9' = 57
+ //'-' = 45
+ //'+' = 43
+ //'.' = 46
+bool isValidStr(string& str)
+{
+	NumberOfString++;
+	if ((str[0] > 57 || str[0] < 48) && str[0] != 45 && str[0] != 43 && str[0] != 46) {
+		cout << "Input error on line " << NumberOfString << "! Enter a number or operator (+, -) without spaces" << endl;
+		return false;
+	}
+	else {
+		for (int i = 1; i < str.length(); i++)
+			if ((str[i] > 57 || str[i] < 48) && str[i] != 46) {
+				cout << "Input error on line " << NumberOfString << "! Enter a number or operator (+, -) without spaces" << endl;
+				return false;
+			}
+	}
+
+	return true;
+}
+
 ETAR Read_str(ifstream& fin, string& str)
 {
-	if (str[0] == '-' || str[0] == '+')
-		return ETAR::OPERATOR;
-	//доделать возвращение типа число 
-
-	return ETAR::ERROR;
+	if (!isValidStr(str))
+		return ETAR::ERROR;
+	else {
+		if ((str[0] == '-' || str[0] == '+') && str.length() <= 1)
+			return ETAR::OPERATOR;
+		else
+			return ETAR::NUMBER;
+	}
 }
