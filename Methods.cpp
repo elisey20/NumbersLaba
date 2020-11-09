@@ -44,11 +44,10 @@ bool Less(TLong& a, TLong& b)
 
 bool Read_TLong(string& str, TLong& num)
 {
-	//текущая строка
-	/*string str;
 
-	fin >> str;
-	cout << str << endl;*/
+	TLong a;
+	num = a;
+	
 
 	//длина строки
 	unsigned short strLength = str.length();
@@ -327,8 +326,6 @@ TLong Sub_TLong(TLong a, TLong b)
 	//результат вычитания
 	return c;
 
-	return a;
-
 }
 
 TLong Sum_or_Sub(TLong a, char oper, TLong& b)
@@ -391,13 +388,13 @@ bool isValidStr(string& str)
 {
 	NumberOfString++;
 	if ((str[0] > 57 || str[0] < 48) && str[0] != 45 && str[0] != 43 && str[0] != 46) {
-		cout << "Input error on line " << NumberOfString << "! Enter a number or operator (+, -) without spaces" << endl;
+		cout << "Input error on line " << NumberOfString << ". Enter a number or operator (+, -) without spaces" << endl;
 		return false;
 	}
 	else {
 		for (int i = 1; i < str.length(); i++)
 			if ((str[i] > 57 || str[i] < 48) && str[i] != 46) {
-				cout << "Input error on line " << NumberOfString << "! Enter a number or operator (+, -) without spaces" << endl;
+				cout << "Input error on line " << NumberOfString << ". Enter a number or operator (+, -) without spaces" << endl;
 				return false;
 			}
 	}
@@ -405,7 +402,7 @@ bool isValidStr(string& str)
 	return true;
 }
 
-ETAR Read_str(ifstream& fin, string& str)
+ETAR Try_Read_Str(string& str)
 {
 	if (!isValidStr(str))
 		return ETAR::ERROR;

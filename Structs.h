@@ -13,4 +13,5 @@ enum class ETAR {
 	NUMBER,
 	OPERATOR,
 	ERROR,
+	FIRST,
 };
