@@ -57,6 +57,8 @@ bool Read_TLong(string& str, TLong& num)
 		num.sign = true;
 		str = str.substr(1);
 	}
+	else if (str[0] == '+')
+		str = str.substr(1);
 
 	//поиск вещественной части числа
 	int posDot = str.find('.');
@@ -65,7 +67,7 @@ bool Read_TLong(string& str, TLong& num)
 		posDot = strLength;
 
 	//номер самой крйней ненулевой €чейки вещественной части
-	num.dataFloat[0] = (strLength - posDot + 2) / 3;
+	num.dataFloat[0] = (strLength - posDot + 1) / 3;
 
 	//номер самой крайней ненулевой €чейки целой части
 	num.dataInt[0] = (posDot + 2) / 3;
@@ -88,7 +90,7 @@ bool Read_TLong(string& str, TLong& num)
 		else
 			j++;
 	}
-
+	
 	j = 2;
 	cur = 0;
 	curCell = 1;
@@ -384,9 +386,10 @@ TLong Sum_or_Sub(TLong a, char oper, TLong& b)
  //'-' = 45
  //'+' = 43
  //'.' = 46
-bool isValidStr(string& str)
+bool isValidString(string& str)
 {
 	NumberOfString++;
+
 	if ((str[0] > 57 || str[0] < 48) && str[0] != 45 && str[0] != 43 && str[0] != 46) {
 		cout << "Input error on line " << NumberOfString << ". Enter a number or operator (+, -) without spaces" << endl;
 		return false;
@@ -399,12 +402,26 @@ bool isValidStr(string& str)
 			}
 	}
 
+	short posDot = str.find('.');
+	if (str[0] == '-' || str[0] == '+') {
+		if (posDot > 103 || ((str.length() - posDot - 1) > 103)) {
+			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 102" << endl;
+			return false;
+		}
+	}
+	else {
+		if (posDot > 102 || ((str.length() - posDot - 1) > 102)) {
+			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 102" << endl;
+			return false;
+		}
+	}
+
 	return true;
 }
 
-ETAR Try_Read_Str(string& str)
+ETAR Try_Read_String(string& str)
 {
-	if (!isValidStr(str))
+	if (!isValidString(str))
 		return ETAR::ERROR;
 	else {
 		if ((str[0] == '-' || str[0] == '+') && str.length() <= 1)

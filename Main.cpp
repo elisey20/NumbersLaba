@@ -29,7 +29,7 @@ int main()
 	bool isTrue = true;
 
 	while (getline(fin, str) && isTrue) {
-		etar = Try_Read_Str(str);
+		etar = Try_Read_String(str);
 		if (etar == ETAR::NUMBER) {
 			//если встретилось два раза число и между ними оператор то вызываем метод сложения-вычитания
 			if (etarPrevious == ETAR::NUMBER) {

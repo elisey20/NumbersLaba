@@ -14,5 +14,5 @@ TLong Sub_TLong(TLong a, TLong b);
 
 TLong Sum_or_Sub(TLong a, char oper, TLong& b);
 
-ETAR Try_Read_Str(string& str);
+ETAR Try_Read_String(string& str);
 
