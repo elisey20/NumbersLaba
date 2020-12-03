@@ -26,8 +26,8 @@ int main()
 	//номер текущей строки
 	unsigned short NumberOfString = 1;
 	//если ошибка то завершаем программу
-	bool isTrue = true;
-
+	extern bool isTrue;
+	
 	while (getline(fin, str) && isTrue) {
 		etar = Try_Read_String(str);
 		if (etar == ETAR::NUMBER) {

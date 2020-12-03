@@ -9,7 +9,8 @@ struct TLong
 	bool sign = false;
 };
 
-enum class ETAR {
+enum class ETAR 
+{
 	NUMBER,
 	OPERATOR,
 	ERROR,

@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
+#include <cmath>
 #include "Structs.h"
 
 unsigned short NumberOfString = 0;
+
+bool isTrue = true;
 
 bool Eq(TLong& a, TLong& b)
 {
@@ -178,6 +181,8 @@ void Write_TLong(ofstream& fout, TLong num)
 			fout << num.dataFloat[end];
 		//
 	}
+
+	fout << '\n';
 }
 
 TLong Sum_TLong(TLong& a, TLong& b)
@@ -246,6 +251,12 @@ TLong Sum_TLong(TLong& a, TLong& b)
 		else
 			i--;
 
+	if (c.sign == true && Less(a, c) || c.sign == false && Less(c, a))
+	{
+		isTrue = false;
+		cout << "Number overflow on line " << NumberOfString << endl;
+	}
+	
 	//результат сложения
 	return c;
 }
@@ -404,14 +415,14 @@ bool isValidString(string& str)
 
 	short posDot = str.find('.');
 	if (str[0] == '-' || str[0] == '+') {
-		if (posDot > 103 || ((str.length() - posDot - 1) > 103)) {
-			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 102" << endl;
+		if (posDot > 100 || ((str.length() - posDot - 1) > 100)) {
+			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 99" << endl;
 			return false;
 		}
 	}
 	else {
-		if (posDot > 102 || ((str.length() - posDot - 1) > 102)) {
-			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 102" << endl;
+		if (posDot > 99 || ((str.length() - posDot - 1) > 99)) {
+			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 99" << endl;
 			return false;
 		}
 	}
