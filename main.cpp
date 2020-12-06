@@ -1,15 +1,17 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
-#include "Methods.h"
+#include "methods.h"
+
+using namespace std;
 
 int main()
 {
 
 	ifstream fin;
 	ofstream fout;
-	fin.open("./files/input.txt", ios_base::in);
-	fout.open("./files/output.txt", ios_base::out);
+	fin.open("../files/input.txt", ios_base::in);
+	fout.open("../files/output.txt", ios_base::out);
 	
 	//текущее число
 	TLong num; 
@@ -27,7 +29,7 @@ int main()
 	unsigned short NumberOfString = 1;
 	//если ошибка то завершаем программу
 	extern bool isTrue;
-	
+
 	while (getline(fin, str) && isTrue) {
 		etar = Try_Read_String(str);
 		if (etar == ETAR::NUMBER) {
