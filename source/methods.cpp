@@ -103,7 +103,7 @@ bool Read_TLong(string& str, TLong& num)
 	unsigned char curCell = 1;
 
 	//���������� ����� ����� ����������
-	for (signed char i = posDot - 1; i >= 0; i--) {
+	for (int i = posDot - 1; i >= 0; i--) {
 		cur += (unsigned short)((str[i] - '0') * pow(10, j));
 		if (j == 2 || i == 0) {
 			j = 0;
@@ -120,7 +120,7 @@ bool Read_TLong(string& str, TLong& num)
 	curCell = 1;
 
 	//���������� ������������ ����� ����������
-	for (unsigned char i = posDot + 1; i <= str.length() - 1; i++) {
+	for (int i = posDot + 1; i <= str.length() - 1; i++) {
 		cur += (unsigned short)((str[i] - '0') * pow(10, j));
 		if (j == 0 || i == str.length() - 1) {
 			j = 2;
@@ -147,6 +147,9 @@ bool Read_TLong(string& str, TLong& num)
 		else
 			break;
 	}
+
+	if (num.dataInt[0] == 0 && num.dataFloat[0] == 0)
+	    num.sign = false;
 
 	return false;
 }
@@ -436,13 +439,13 @@ bool isValidString(string& str)
 
 	short posDot = str.find('.');
 	if (str[0] == '-' || str[0] == '+') {
-		if (posDot > 100 || ((str.length() - posDot - 1) > 100)) {
+		if (posDot > ((NumberOfDigits - 1) * 3 + 1) || ((str.length() - posDot - 1) > ((NumberOfDigits - 1) * 3 + 1))) {
 			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 99" << endl;
 			return false;
 		}
 	}
 	else {
-		if (posDot > 99 || ((str.length() - posDot - 1) > 99)) {
+		if (posDot > (NumberOfDigits - 1) * 3 || ((str.length() - posDot - 1) > (NumberOfDigits - 1) * 3)) {
 			cout << "Input error on line " << NumberOfString << ". The number of characters before and after the dot must not exceed 99" << endl;
 			return false;
 		}

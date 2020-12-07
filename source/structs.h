@@ -1,6 +1,6 @@
 #pragma once
 
-const int NumberOfDigits = 34;
+const int NumberOfDigits = 11;
 
 struct TLong
 {
