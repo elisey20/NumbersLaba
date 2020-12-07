@@ -27,22 +27,41 @@ bool Less(TLong& a, TLong& b)
 	else if (a.sign == false && b.sign == true)
 		return false;
 
-	//����������� ���������� � ����� �����
-	for (unsigned char i = NumberOfDigits - 1; i > 0; i--) {
-		if (a.dataInt[i] > b.dataInt[i])
-			return false;
-		else if (a.dataInt[i] < b.dataInt[i])
-			return true;
-	}
+	if (a.sign == true && b.sign == true)
+    {
+        //����������� ���������� � ����� �����
+        for (unsigned char i = NumberOfDigits - 1; i > 0; i--) {
+            if (a.dataInt[i] < b.dataInt[i])
+                return false;
+            else if (a.dataInt[i] > b.dataInt[i])
+                return true;
+        }
 
-	//����������� ���������� � ������� �����
-	for (unsigned char i = 1; i < NumberOfDigits; i++) {
-		if (a.dataFloat[i] > b.dataFloat[i])
-			return false;
-		else if (a.dataFloat[i] < b.dataFloat[i])
-			return true;
-	}
+        //����������� ���������� � ������� �����
+        for (unsigned char i = 1; i < NumberOfDigits; i++) {
+            if (a.dataFloat[i] < b.dataFloat[i])
+                return false;
+            else if (a.dataFloat[i] > b.dataFloat[i])
+                return true;
+        }
+    } else
+    {
+        //����������� ���������� � ����� �����
+        for (unsigned char i = NumberOfDigits - 1; i > 0; i--) {
+            if (a.dataInt[i] > b.dataInt[i])
+                return false;
+            else if (a.dataInt[i] < b.dataInt[i])
+                return true;
+        }
 
+        //����������� ���������� � ������� �����
+        for (unsigned char i = 1; i < NumberOfDigits; i++) {
+            if (a.dataFloat[i] > b.dataFloat[i])
+                return false;
+            else if (a.dataFloat[i] < b.dataFloat[i])
+                return true;
+        }
+    }
 	//���� ����� �����
 	return false;
 }
